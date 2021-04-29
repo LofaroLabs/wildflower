@@ -477,6 +477,10 @@ void SENSORS::printEvent(sensors_event_t* event)
     Serial.println(z);
 }
 
+float SENSORS::GetRoll(void)
+{
+	
+}
 
 //**************************************************************************************
 //---------------------------------WiFi Class Methods----------------------------------
@@ -718,19 +722,26 @@ int FLCounter;
 int FRCounter;
 int BRCounter;
 
+SENSORS mcsense = SENSORS(); // used for StayAtHeight().
+
 /* --- Constructor --- */
-UAS_MotorController::MotorController(void)
+UAS_MotorController::UAS_MotorController(void)
 { 
 }
 
 /* Init Method */
 int UAS_MotorController::Initialize(void)
 {
-  motorSpeedBL = 80;
-  motorSpeedFL = 80;
-  motorSpeedFR = 80;
-  motorSpeedBR = 80;
-  return 0;
+	Serial.println("Initializing motor controller");
+	pinMode(MOTOR_BL, OUTPUT);
+	pinMode(MOTOR_FL, OUTPUT);
+	pinMode(MOTOR_FR, OUTPUT);
+	pinMode(MOTOR_BR, OUTPUT);
+	motorSpeedBL = 80;
+	motorSpeedFL = 80;
+	motorSpeedFR = 80;
+	motorSpeedBR = 80;
+	return 0;
 }
 
 /**
@@ -738,20 +749,19 @@ int UAS_MotorController::Initialize(void)
  * Should change the motor thrust scaling-value appropriately to help keep the UAS and a specified height.
  */
 float UAS_MotorController::StayAtHeight(float desiredHeight){
-  sense.ReadCloseRangeLIDAR();
-  sense.ReadLongRangeLIDAR();
-  float closeL = Lidar.CloseRange;
-  float longL = Lidar.LongRange;
-  float currentHeight = longL;
-  if (longL <= 100){ // Switch to the close range one - once we get down to mid range between the two's boundaries.
-    currentHeight = closeL;
-  }
-  float error = desiredHeight - currentHeight; // positive when we need to go up, negative when we need to go down
-  // For a velocity controller, we need:
-  // desired velocity
-  // actual velocity
-  // way to set derivative of velocity / gradually change velocity (force)
-
+	mcsense.ReadCloseRangeLIDAR();
+	mcsense.ReadLongRangeLIDAR();
+	float closeL = Lidar.CloseRange;
+	float longL = Lidar.LongRange;
+	float currentHeight = longL;
+	if (longL <= 100){ // Switch to the close range one - once we get down to mid range between the two's boundaries.
+		currentHeight = closeL;
+	}
+	float error = desiredHeight - currentHeight; // positive when we need to go up, negative when we need to go down
+	// For a velocity controller, we need:
+	// desired velocity
+	// actual velocity
+	// way to set derivative of velocity / gradually change velocity (force)
 }
 
 /**
@@ -759,23 +769,35 @@ float UAS_MotorController::StayAtHeight(float desiredHeight){
  * thrust of ALL the motors) to that value. Used when staying at a specific height.
  */
 int UAS_MotorController::SetThrustScale(float thrust){
-  thrustScaler = thrust;
-  return 0;
+	thrustScaler = thrust;
+	return 0;
 }
 
 /**
  * Takes an orientation in (roll, pitch, yaw) and uses ChangeUASOrientation to reach it.
  */
 int UAS_MotorController::SetUASOrientation(float roll, float pitch, float yaw){
-  return 0;
+	//bno.getEvent(&orientation, Adafruit_BNO055::VECTOR_EULER);
+	return 0;
 }
 
 /**
- * Takes a rotational force in (roll, pitch, yaw) which we wish to apply to the UAS and translates it into
+ * Takes a rotational force (in pounds/newtons) in (roll, pitch, yaw) which we wish to apply to the UAS and translates it into
  * the appropriate forces to be applied to each motor, then sends those forces to SetMotorForces().
+ * For future reference, IMUBNO055 defines the SENSOR_TYPE_ORIENTATION events fields:
+ *		+ yaw is the +x value, facing forward, turning to your right.
+ *		+ roll is the +y value, when standing up, leaning to your right.
+ *		+ pitch is the +z value, looking straight ahead, tilting your head upward.
  */
 int UAS_MotorController::ChangeUASOrientation(float roll, float pitch, float yaw){
-   return 0;
+	// + roll would be +FL and +BL, -FR and -BR	
+	// + pitch would be +FL and +FR, -BL and -BR
+	// + yaw would be +FR and +BL, -FL and -BR
+	
+	// For now, just put roll control in there.
+	int rollforce = roll;
+	SetMotorForces(rollforce/4, rollforce/4, -rollforce/4, -rollforce/4);
+	return 0;
 }
 
 /**
@@ -785,83 +807,96 @@ int UAS_MotorController::ChangeUASOrientation(float roll, float pitch, float yaw
  * and send a message to the serial communications line.
  */
 int UAS_MotorController::SetMotorForces(float BL_Force, float FL_Force, float FR_Force, float BR_Force){
-  float maxThrust = 10; // say its like 10 lbs
-  float droneWeight = 8; // 8 lbs
-  // The maximum force it can have upwards is maxThrust - droneWeight.
-  // The maximum force it can have going downwards is droneWeight (our rotors don't spin backwards.)
-  // The difference between these two is maxThrust.
-  // In this case, 0% of maxThrust would be -8 lbs of force, 100% of maxThrust would be +2 lbs of force.
-  // 
-  // (-8 + 8) / 10 * 100 = 0
-  // (-2 + 8) / 10 * 100 = 60
-  // (0  + 8) / 10 * 100 = 80
-  // (2  + 8) / 10 * 100 = 100
+	//float maxThrust = 10; // say its like 10 lbs
+	//float droneWeight = 8; // 8 lbs
+	// The maximum force it can have upwards is maxThrust - droneWeight.
+	// The maximum force it can have going downwards is droneWeight (our rotors don't spin backwards.)
+	// The difference between these two is maxThrust.
+	// In this case, 0% of maxThrust would be -8 lbs of force, 100% of maxThrust would be +2 lbs of force.
+	// 
+	// (-8 + 8) / 10 * 100 = 0
+	// (-2 + 8) / 10 * 100 = 60
+	// (0  + 8) / 10 * 100 = 80
+	// (2  + 8) / 10 * 100 = 100
 
 
-  // Init the percent of time each motor should be driven high.  
-  float percentBL = (BL_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
-  if (percentBL > 100) {
-    percentBL = 100;
-    Serial.print("Trying to get more force than we can muster out of motor BL!");
-  }
-  else if (percentBL < 0){
-    percentBL = 0;
-    Serial.print("Trying to drop faster than gravity will allow for side BL!");
-  }
-
-  float percentFL = (FL_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
-  if (percentFL > 100) {
-    percentFL = 100;
-    Serial.print("Trying to get more force than we can muster out of motor FL!");
-  }
-  else if (percentFL < 0){
-    percentFL = 0;
-    Serial.print("Trying to drop faster than gravity will allow for side FL!");
-  }
-
-  float percentFR = (FR_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
-  if (percentFR > 100) {
-    percentFR = 100;
-    Serial.print("Trying to get more force than we can muster out of motor FR!");
-  }
-  else if (percentFR < 0){
-    percentFR = 0;
-    Serial.print("Trying to drop faster than gravity will allow for side FR!");
-  }
-  
-  float percentBR = (BR_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
-  if (percentBR > 100) {
-    percentBR = 100;
-    Serial.print("Trying to get more force than we can muster out of motor BR!");
-  }
-  else if (percentBR < 0){
-    percentBR = 0;
-    Serial.print("Trying to drop faster than gravity will allow for side BR!");
-  }
-  
+	// Init the percent of time each motor should be driven high.  
+	float percentBL = (BL_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
+	if (percentBL > 100) {
+		percentBL = 100;
+		Serial.println("Trying to get more force than we can muster out of motor BL!");
+	}
+	else if (percentBL < 0){
+		percentBL = 0;
+		Serial.println("Trying to drop faster than gravity will allow for side BL!");
+	}
+	
+	float percentFL = (FL_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
+	if (percentFL > 100) {
+		percentFL = 100;
+		Serial.println("Trying to get more force than we can muster out of motor FL!");
+	}
+	else if (percentFL < 0){
+		percentFL = 0;
+		Serial.println("Trying to drop faster than gravity will allow for side FL!");
+	}
+	
+	float percentFR = (FR_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
+	if (percentFR > 100) {
+		percentFR = 100;
+		Serial.println("Trying to get more force than we can muster out of motor FR!");
+	}
+	else if (percentFR < 0){
+		percentFR = 0;
+		Serial.println("Trying to drop faster than gravity will allow for side FR!");
+	}
+	
+	float percentBR = (BR_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
+	if (percentBR > 100) {
+		percentBR = 100;
+		Serial.println("Trying to get more force than we can muster out of motor BR!");
+	}
+	else if (percentBR < 0){
+		percentBR = 0;
+		Serial.println("Trying to drop faster than gravity will allow for side BR!");
+	}
+	Serial.print("percentBL: ");
+	Serial.println(percentBL);
+	Serial.print("percentFL: ");
+	Serial.println(percentFL);
+	Serial.print("percentFR: ");
+	Serial.println(percentFR);
+	Serial.print("percentBR: ");
+	Serial.println(percentBR);
+	
+	motorSpeedBL = percentBL;
+	motorSpeedFL = percentFL;
+	motorSpeedFR = percentFR;
+	motorSpeedBR = percentBR;
+	return 0;
 }
 
 // Function that should be called in main to spin the motors in a time-sensitive manner.
-int UAS_MotorController::SpinMotors(void)
-{
-  if (BLCounter > motorSpeedBL) digitalWrite(MOTOR_BL, LOW); // turn off for (100-BL)% of the time.
-  else digitalWrite(MOTOR_BL, HIGH); // turn on for BL% of the time.
-  if (FLCounter > motorSpeedFL) digitalWrite(MOTOR_FL, LOW);
-  else digitalWrite(MOTOR_FL, HIGH);
-  if (FRCounter > motorSpeedFR) digitalWrite(MOTOR_FR, LOW);
-  else digitalWrite(MOTOR_FR, HIGH);
-  if (BRCounter > BRCounter) digitalWrite(MOTOR_BR, LOW);
-  else digitalWrite(MOTOR_BR, HIGH);
-  
-  BLCounter++;
-  FLCounter++;
-  FRCounter++;
-  BRCounter++;
-  
-  // When counters reach > 100, set back to 0.
-  if (BLCounter > 100) BLCounter = 0;
-  if (FLCounter > 100) FLCounter = 0;
-  if (FRCounter > 100) FRCounter = 0;
-  if (BRCounter > 100) BRCounter = 0;
-  return 0;
+void UAS_MotorController::SpinMotors(void)
+{	
+	Serial.print("Spinning!\n\r");
+	if (BLCounter > motorSpeedBL) digitalWrite(MOTOR_BL, LOW); // turn off for (100-BL)% of the time.
+	else digitalWrite(MOTOR_BL, HIGH); // turn on for BL% of the time.
+	if (FLCounter > motorSpeedFL) digitalWrite(MOTOR_FL, LOW);
+	else digitalWrite(MOTOR_FL, HIGH);
+	if (FRCounter > motorSpeedFR) digitalWrite(MOTOR_FR, LOW);
+	else digitalWrite(MOTOR_FR, HIGH);
+	if (BRCounter > BRCounter) digitalWrite(MOTOR_BR, LOW);
+	else digitalWrite(MOTOR_BR, HIGH);
+
+	BLCounter++;
+	FLCounter++;
+	FRCounter++;
+	BRCounter++;
+
+	// When counters reach > 100, set back to 0.
+	if (BLCounter > 100) BLCounter = 0;
+	if (FLCounter > 100) FLCounter = 0;
+	if (FRCounter > 100) FRCounter = 0;
+	if (BRCounter > 100) BRCounter = 0;
 }
