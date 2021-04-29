@@ -7,8 +7,8 @@
     <!--Main Header-->
     <h1> Project Wildflower UAS </h1>
     <!--Logos-->
-    <img src="Images\Logos\LofaroLabsLogo.svg" style="float: left; width: 33.3%;">
-    <img src="Images\Logos\Project_Wildflower.svg" style="float: right; width: 33.3%;">
+    <img src="Images\Logos\LofaroLabsLogo.svg" style="float: left;">
+    <img src="Images\Logos\Project_Wildflower.svg" style="clear: both;">
     
   </body>
 </html>
