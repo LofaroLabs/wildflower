@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
   </head>
   <body>
-    <h1 id="sectTitle"> Project Wildflower UAS </h1>
-    <img src="images\logos\Project_Wildflower.svg" width: 33.3%;">
+    <h1> Project Wildflower UAS </h1>
+    <img src="Images\Logos\Project_Wildflower.svg" style="width: 33.3%;">
   </body>
 </html>
