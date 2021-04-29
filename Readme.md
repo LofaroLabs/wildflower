@@ -5,16 +5,7 @@
   </head>
   <body>
     <!--Style-->
-    <foreignObject width="100%" height="100%">
-      #firstImage
-      {
-        float: left;
-      }
-      #secondImage
-      {
-        clear: both;
-      }
-    </foriegnObject>
+    <img src="testing.svg">
     <!--Main Header-->
     <h1> Project Wildflower UAS </h1>
     <!--Logos-->
