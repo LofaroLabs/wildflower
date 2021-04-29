@@ -34,6 +34,7 @@ Vivamus commodo fringilla posuere. Pellentesque vitae purus suscipit, ullamcorpe
 
 Praesent eget urna a metus faucibus dignissim id eget metus. Etiam porta in libero quis viverra. Fusce tempor tempus felis vitae efficitur. Cras elementum laoreet purus eu lobortis. In condimentum, massa vel suscipit tincidunt, arcu mi dictum tortor, non fermentum nulla purus sed eros. Duis erat mi, interdum ac laoreet sed, hendrerit in ante. Maecenas varius accumsan elit ut placerat. In vel blandit elit.</p>
     </div>
+    <hr>
     <!--Section 2: Ground Station-->
     <div id="GroundStation">
       <h1>Ground Station</h1>
@@ -45,6 +46,7 @@ Vivamus commodo fringilla posuere. Pellentesque vitae purus suscipit, ullamcorpe
 
 Praesent eget urna a metus faucibus dignissim id eget metus. Etiam porta in libero quis viverra. Fusce tempor tempus felis vitae efficitur. Cras elementum laoreet purus eu lobortis. In condimentum, massa vel suscipit tincidunt, arcu mi dictum tortor, non fermentum nulla purus sed eros. Duis erat mi, interdum ac laoreet sed, hendrerit in ante. Maecenas varius accumsan elit ut placerat. In vel blandit elit.</p>
     </div>
+    <hr>
     <!--Section 3: PCB Design-->
     <div id="PCB_Design">
       <h1>PCB Design</h1>
@@ -57,6 +59,7 @@ Vivamus commodo fringilla posuere. Pellentesque vitae purus suscipit, ullamcorpe
 Praesent eget urna a metus faucibus dignissim id eget metus. Etiam porta in libero quis viverra. Fusce tempor tempus felis vitae efficitur. Cras elementum laoreet purus eu lobortis. In condimentum, massa vel suscipit tincidunt, arcu mi dictum tortor, non fermentum nulla purus sed eros. Duis erat mi, interdum ac laoreet sed, hendrerit in ante. Maecenas varius accumsan elit ut placerat. In vel blandit elit.
       </p>
     </div>
+    <hr>
     <!--Section 4: Documentation-->
     <div id="Documentation">
       <h1>Documentation</h1>
@@ -69,6 +72,7 @@ Vivamus commodo fringilla posuere. Pellentesque vitae purus suscipit, ullamcorpe
 Praesent eget urna a metus faucibus dignissim id eget metus. Etiam porta in libero quis viverra. Fusce tempor tempus felis vitae efficitur. Cras elementum laoreet purus eu lobortis. In condimentum, massa vel suscipit tincidunt, arcu mi dictum tortor, non fermentum nulla purus sed eros. Duis erat mi, interdum ac laoreet sed, hendrerit in ante. Maecenas varius accumsan elit ut placerat. In vel blandit elit.
       </p>
     </div>
+    <hr>
     <!--Conclude-->
     </body>
 </html>
