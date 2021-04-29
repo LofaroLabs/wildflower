@@ -75,5 +75,7 @@ Praesent eget urna a metus faucibus dignissim id eget metus. Etiam porta in libe
     </div>
     <hr>
     <!--Conclude-->
+    <!--Copyright Information-->
+    <footer> <small>&copy; Copyright 2021, Lofaro Labs</small> </footer>
     </body>
 </html>
