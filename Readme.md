@@ -13,9 +13,7 @@
     </p>
     <!--Link Bar-->
     <div id="NavBar">
-      <p> 
-        <a href="http://lofarolabs.com/" target="_blank">Lofaro Labs Website</a>
-         | 
+      <p>  
         <a href="#SensorsAndComms" target="_blank">Sensors and Communications</a>
          | 
         <a href="#GroundStation">Ground Station</a>
@@ -23,6 +21,8 @@
         <a href="#PCB_Design">PCB Design</a>
          | 
         <a href="#Documentation">Documentation</a>
+         | 
+        <a href="http://lofarolabs.com/" target="_blank">Lofaro Labs Website</a>
     </div>
     <!--Section 1: Sensors and Comms Library-->
     <div id="SensorsAndComms">
