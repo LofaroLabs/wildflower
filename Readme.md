@@ -8,8 +8,8 @@
     <h1> Project Wildflower UAS </h1>
     <!--Logos-->
     <p float="left">
-      <img id="firstImage" src="Images\Logos\LofaroLabsLogo.svg" style="height: 150px; float: left;">
-      <img id="secondImage" src="Images\Logos\Project_Wildflower.svg" style="height: 150px; clear: both;">
+      <img id="firstImage" src="Images\Logos\LofaroLabsLogo.svg" height="100%">
+      <img id="secondImage" src="Images\Logos\Project_Wildflower.svg" height="100%">
     </p>
   </body>
 </html>
