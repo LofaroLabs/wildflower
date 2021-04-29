@@ -12,7 +12,7 @@
       <img src="Images\Logos\Project_Wildflower.svg" height="150px">
     </p>
     <!--Link Bar-->
-    <nav float="left">
+    <ul float="left">
       <a href="http://lofarolabs.com/" target="_blank">Lofaro Labs Website</a>
       <p> | </p>
       <a href="http://lofarolabs.com/" target="_blank">Sensors and Communications</a>
@@ -22,7 +22,6 @@
       <a href="http://lofarolabs.com/" target="_blank">PCB Design</a>
       <p> | </p>
       <a href="http://lofarolabs.com/" target="_blank">Documentation</a>
-    </nav>
-    [GroundStation.md](https://github.com/LofaroLabs/wildflower/files/6396256/GroundStation.md)
+    </ul>
     </body>
 </html>
