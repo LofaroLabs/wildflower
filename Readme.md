@@ -23,6 +23,6 @@
       <p> | </p>
       <a href="http://lofarolabs.com/" target="_blank">Documentation</a>
     </nav>
-    <iframe src="GroundStation.md"></iframe> 
+    [GroundStation.md](https://github.com/LofaroLabs/wildflower/files/6396256/GroundStation.md)
     </body>
 </html>
