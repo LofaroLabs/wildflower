@@ -704,7 +704,7 @@ void UAS_WiFi::ParseString(String RxString)
 
 // external values;
 float thrustScaler = 1;
-float maxThrust = 10; // Say for example that the UAS can produce a thrust of 10 lbs.
+float maxThrust = 10; // Say for example that the UAS can produce a total thrust of 10 lbs.
 float droneWeight = 8; // And say for example that it weighs about 8 pounds.
 
 // internal values
@@ -734,6 +734,7 @@ int UAS_MotorController::Initialize(void)
 }
 
 /**
+ * NOT FINISHED YET
  * Should change the motor thrust scaling-value appropriately to help keep the UAS and a specified height.
  */
 float UAS_MotorController::StayAtHeight(float desiredHeight){
@@ -749,7 +750,7 @@ float UAS_MotorController::StayAtHeight(float desiredHeight){
   // For a velocity controller, we need:
   // desired velocity
   // actual velocity
-  // way to set derivative of velocity (force)
+  // way to set derivative of velocity / gradually change velocity (force)
 
 }
 
