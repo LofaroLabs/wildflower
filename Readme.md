@@ -8,8 +8,20 @@
     <h1> Project Wildflower UAS </h1>
     <!--Logos-->
     <p float="left">
-      <img id="firstImage" src="Images\Logos\LofaroLabsLogo.svg" height="100%">
-      <img id="secondImage" src="Images\Logos\Project_Wildflower.svg" height="100%">
+      <img src="Images\Logos\LofaroLabsLogo.svg" height="150px">
+      <img src="Images\Logos\Project_Wildflower.svg" height="150px">
     </p>
-  </body>
+    <!--Link Bar-->
+    <nav float="left">
+      <a href="http://lofarolabs.com/" target="_blank">Lofaro Labs Website</a>
+      <p> | </p>
+      <a href="http://lofarolabs.com/" target="_blank">Sensors and Communications</a>
+      <p> | </p>
+      <a href="http://lofarolabs.com/" target="_blank">Ground Station</a>
+      <p> | </p>
+      <a href="http://lofarolabs.com/" target="_blank">PCB Design</a>
+      <p> | </p>
+      <a href="http://lofarolabs.com/" target="_blank">Documentation</a>
+    </nav>
+    </body>
 </html>
