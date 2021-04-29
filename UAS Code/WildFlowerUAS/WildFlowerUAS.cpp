@@ -708,8 +708,9 @@ void UAS_WiFi::ParseString(String RxString)
 
 // external values;
 float thrustScaler = 1;
-float maxThrust = 10; // Say for example that the UAS can produce a total thrust of 10 lbs.
-float droneWeight = 8; // And say for example that it weighs about 8 pounds.
+float maxThrust = 68; // Say for example that the UAS can produce a total thrust of 68 g.
+float droneWeight = 62; // And say for example that it weighs about 62 g.
+float liftForce = 0;
 
 // internal values
 int motorSpeedBL;
@@ -746,7 +747,7 @@ int UAS_MotorController::Initialize(void)
 
 /**
  * NOT FINISHED YET
- * Should change the motor thrust scaling-value appropriately to help keep the UAS and a specified height.
+ * Should change the motor thrust scaling-value appropriately to help keep the UAS at a specified height.
  */
 float UAS_MotorController::StayAtHeight(float desiredHeight){
 	mcsense.ReadCloseRangeLIDAR();
@@ -774,10 +775,77 @@ int UAS_MotorController::SetThrustScale(float thrust){
 }
 
 /**
+ * Mostly for debugging. Set an added force which will go to all the rotors in ChangeUASOrientation.
+ * This is to keep the UAS from dropping even when the UAS does not need to rotate.
+ */
+int UAS_MotorController::SetLiftForce(float f){
+	liftForce = f; 
+	return 0;
+}
+ 
+/**
+ * Does what you'd expect.
+ */
+int UAS_MotorController::SetMaxThrust(float f){
+	maxThrust = f;
+	return 0;
+}
+
+ /**
+  * Does what you'd expect.
+  */ 
+int UAS_MotorController::SetUASWeight(float f){
+	droneWeight = f;
+	return 0;
+}
+
+/**
  * Takes an orientation in (roll, pitch, yaw) and uses ChangeUASOrientation to reach it.
  */
-int UAS_MotorController::SetUASOrientation(float roll, float pitch, float yaw){
-	//bno.getEvent(&orientation, Adafruit_BNO055::VECTOR_EULER);
+int UAS_MotorController::SetUASOrientation(float roll, float pitch, float yaw, int mode){
+	float kp_roll = 1;
+	
+	// Get the current roll.
+	sensors_event_t orientation;
+	bno.getEvent(&orientation, Adafruit_BNO055::VECTOR_EULER);
+	float c_roll = orientation.orientation.y;
+	Serial.print("Orientation from set command is: ");
+	Serial.println(c_roll);
+	
+	// Calculate our error roll.
+	float e_roll =  roll - c_roll;
+	Serial.print("We need to correct our roll by: ");
+	Serial.println(e_roll);	
+	// Now that we have the error (the P in our PID controller), add a force appropriately.
+	float rollforce;
+	
+	switch(mode){
+	case 0:	{
+		// BANG BANG test.
+		// need to roll right
+		if (e_roll > 0) rollforce = 10 * kp_roll;
+		// need to roll left
+		else rollforce = -10 * kp_roll;
+		break;
+	}
+	case 1:{
+		// PID test.
+		// Scale the force to be applied with the error in roll position.
+		float k = 0.5;
+		rollforce = (e_roll * k * (maxThrust-droneWeight)) * kp_roll;
+		break;
+	}
+	default:{
+		// default to PID
+		rollforce = (e_roll * 0.5 * (maxThrust-droneWeight)) * kp_roll;
+		break;
+	}
+	}
+	
+	Serial.print("rollforce: ");
+	Serial.println(rollforce);
+	
+	ChangeUASOrientation(rollforce, pitch, yaw);
 	return 0;
 }
 
@@ -796,7 +864,10 @@ int UAS_MotorController::ChangeUASOrientation(float roll, float pitch, float yaw
 	
 	// For now, just put roll control in there.
 	int rollforce = roll;
-	SetMotorForces(rollforce/4, rollforce/4, -rollforce/4, -rollforce/4);
+	
+	// Add a minimum force so that it keeps airborn even when not rolling.
+	int liftforce = liftForce; // For now.
+	SetMotorForces(rollforce/4 + liftforce, rollforce/4 + liftforce, -rollforce/4 + liftforce, -rollforce/4 + liftforce);
 	return 0;
 }
 
@@ -805,6 +876,8 @@ int UAS_MotorController::ChangeUASOrientation(float roll, float pitch, float yaw
  * can read and use to switch the motors periodically (a floating percentage.)
  * If a upwards or downwards force greater than we can give is requested, set it to the max in that direction
  * and send a message to the serial communications line.
+ * The force range it should take here is from droneWeight to maxThrust. Anything outside it will be raised or
+ * lowered to the appropriate bound.
  */
 int UAS_MotorController::SetMotorForces(float BL_Force, float FL_Force, float FR_Force, float BR_Force){
 	//float maxThrust = 10; // say its like 10 lbs
