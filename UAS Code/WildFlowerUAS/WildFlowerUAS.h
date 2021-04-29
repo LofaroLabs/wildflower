@@ -96,5 +96,22 @@ class UAS_WiFi
         void ParseString(String RxString);
 };
 
+//**************************************************************************************
+//------------------------ MotorController Class Methods -------------------------------
+//**************************************************************************************
+
+class UAS_MotorController
+{
+    public:
+        Initialize(void);
+        StayAtHeight(float desiredHeight);
+        SetThrustScale(float thrust);
+        SetUASOrientation(float roll, float pitch, float yaw);
+        SpinMotors(void);
+        
+    private:
+        ChangeUASOrientation(float roll, float pitch, float yaw);
+        SetMotorForces(float BL_Force, float FL_Force, float FR_Force, float BR_Force);
+}
 
 #endif
