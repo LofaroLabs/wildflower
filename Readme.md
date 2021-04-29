@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en-US">
   <head>
     <meta charset="UTF-8">
   </head>
@@ -8,21 +8,22 @@
     <h1> Project Wildflower UAS </h1>
     <!--Logos-->
     <p float="left">
-      <img src="Images\Logos\LofaroLabsLogo.svg" height="150px">
-      <img src="Images\Logos\Project_Wildflower.svg" height="150px">
+      <img src="Images\Logos\LofaroLabsLogo.svg" alt="Lofaro Labs Logo" height="150px">
+      <img src="Images\Logos\Project_Wildflower.svg" alt="Project Wildflower Logo" height="150px">
     </p>
     <!--Link Bar-->
-    <ul float="left">
-      <a href="http://lofarolabs.com/" target="_blank">Lofaro Labs Website</a>
-      <p> | </p>
-      <a href="#SensorsAndComms" target="_blank">Sensors and Communications</a>
-      <p> | </p>
-      <a href="#GroundStation">Ground Station</a>
-      <p> | </p>
-      <a href="#PCB_Design">PCB Design</a>
-      <p> | </p>
-      <a href="#Documentation">Documentation</a>
-    </ul>
+    <div id="NavBar">
+      <p>  
+        <a href="#SensorsAndComms" target="_blank">Sensors and Communications</a>
+         | 
+        <a href="#GroundStation">Ground Station</a>
+         | 
+        <a href="#PCB_Design">PCB Design</a>
+         | 
+        <a href="#Documentation">Documentation</a>
+         | 
+        <a href="http://lofarolabs.com/" target="_blank">Lofaro Labs Website</a>
+    </div>
     <!--Section 1: Sensors and Comms Library-->
     <div id="SensorsAndComms">
       <h1>Sensors and Communications</h1>
