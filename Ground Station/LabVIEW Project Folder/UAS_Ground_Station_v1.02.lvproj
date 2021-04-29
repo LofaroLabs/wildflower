@@ -101,23 +101,23 @@
 				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
-				<Property Name="Bld_localDestDir" Type="Path">../builds/NI_AB_PROJECTNAME</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../builds/Application</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToProject</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{18A8CC0E-29F9-4DC5-8E93-ED21770176C8}</Property>
-				<Property Name="Bld_version.build" Type="Int">10</Property>
+				<Property Name="Bld_version.build" Type="Int">11</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">UAS_GroundStation_GUI.exe</Property>
-				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/UAS_GroundStation_GUI.exe</Property>
+				<Property Name="Destination[0].path" Type="Path">../builds/Application/UAS_GroundStation_GUI.exe</Property>
 				<Property Name="Destination[0].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
-				<Property Name="Destination[1].path" Type="Path">../builds/NI_AB_PROJECTNAME/data</Property>
+				<Property Name="Destination[1].path" Type="Path">../builds/Application/data</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="Exe_iconItemID" Type="Ref">/My Computer/Project_Wildflower.ico</Property>
-				<Property Name="Source[0].itemID" Type="Str">{5B246B84-0A42-4549-A97D-2FC9BC89CD2D}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{D6168075-D979-46BC-B55A-6012A07B6C5D}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/UAS_Ground_Station_v1.02.vi</Property>
@@ -191,13 +191,13 @@
 				<Property Name="DistPartCount" Type="Int">1</Property>
 				<Property Name="INST_author" Type="Str">George Mason University</Property>
 				<Property Name="INST_autoIncrement" Type="Bool">true</Property>
-				<Property Name="INST_buildLocation" Type="Path">../builds/UAS_Ground_Station_v1.01</Property>
+				<Property Name="INST_buildLocation" Type="Path">../builds/Installer</Property>
 				<Property Name="INST_buildLocation.type" Type="Str">relativeToProject</Property>
 				<Property Name="INST_buildSpecName" Type="Str">UAS Ground Station Installer</Property>
 				<Property Name="INST_defaultDir" Type="Str">{8D0F9EE4-E5D1-46F0-AD7F-43BFBDE1C9C5}</Property>
 				<Property Name="INST_installerName" Type="Str">install_UAS_GroundStation.exe</Property>
 				<Property Name="INST_productName" Type="Str">UAS Ground Station Installer</Property>
-				<Property Name="INST_productVersion" Type="Str">1.0.7</Property>
+				<Property Name="INST_productVersion" Type="Str">1.0.8</Property>
 				<Property Name="InstSpecBitness" Type="Str">32-bit</Property>
 				<Property Name="InstSpecVersion" Type="Str">20008011</Property>
 				<Property Name="MSI_arpCompany" Type="Str">George Mason University</Property>
