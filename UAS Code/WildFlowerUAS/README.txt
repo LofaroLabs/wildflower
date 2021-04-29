@@ -1,7 +1,7 @@
 1. PLACE FILE IN LIBRARIES FOLDER FOR ARDUINO
 	-If on Windows 10, the folder should be at "C:\Users\Username\Documents\Arduino\libraries\".
 
-2. CLASSES TO CALL and METHODS 
+2. CLASSES TO CALL and PUBLIC METHODS 
 	SENSORS
 		SENSORS(void);
 			-Creates a class instance.
@@ -37,9 +37,14 @@
 		-BNO055_XSHUT
 			-XSHUT pin for IMU, which is 10.
 
-	IMU Return Data
-
-	Long-Range LIDAR Return Data
-
-	Close-Range LIDAR Return Data
-	
+	IMU Data
+		-TxData
+			-Structure with a 3D vector for Orientation and Rotation, and an unsigned 16-bit integet to enumerate mode selection
+				-Note: This structure is the same type as the Ground Station Command Data
+	Long-Range and Close-Range LIDAR Return Data
+		-Lidar
+			-Structure consisting of the Close-Range proximity in millimeters, the Long-Range proximity in millimeters, and the Close-Range LIDAR's LUX.
+	Ground Station Commands
+		-RxData
+			-Structure with a 3D vector for Orientation and Rotation, and an unsigned 16-bit integet to enumerate mode selection
+				-Note: This structure is the same type as the IMU Data
