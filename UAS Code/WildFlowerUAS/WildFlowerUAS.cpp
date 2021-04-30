@@ -477,6 +477,10 @@ void SENSORS::printEvent(sensors_event_t* event)
     Serial.println(z);
 }
 
+float SENSORS::GetRoll(void)
+{
+	
+}
 
 //**************************************************************************************
 //---------------------------------WiFi Class Methods----------------------------------
@@ -688,4 +692,284 @@ void UAS_WiFi::ParseString(String RxString)
       strBuf.concat(RxString[i]);
     }
   }
+}
+
+
+
+//**************************************************************************************
+//------------------------ MotorController Class Methods -------------------------------
+//**************************************************************************************
+
+// Define the pins for each motor.
+#define MOTOR_BL A1
+#define MOTOR_FL A2
+#define MOTOR_FR A3
+#define MOTOR_BR A4
+
+// external values;
+float thrustScaler = 1;
+float maxThrust = 68; // Say for example that the UAS can produce a total thrust of 68 g.
+float droneWeight = 62; // And say for example that it weighs about 62 g.
+float liftForce = 0;
+
+// internal values
+int motorSpeedBL;
+int motorSpeedFL;
+int motorSpeedFR;
+int motorSpeedBR;
+
+int BLCounter;
+int FLCounter;
+int FRCounter;
+int BRCounter;
+
+SENSORS mcsense = SENSORS(); // used for StayAtHeight().
+
+/* --- Constructor --- */
+UAS_MotorController::UAS_MotorController(void)
+{ 
+}
+
+/* Init Method */
+int UAS_MotorController::Initialize(void)
+{
+	Serial.println("Initializing motor controller");
+	pinMode(MOTOR_BL, OUTPUT);
+	pinMode(MOTOR_FL, OUTPUT);
+	pinMode(MOTOR_FR, OUTPUT);
+	pinMode(MOTOR_BR, OUTPUT);
+	motorSpeedBL = 80;
+	motorSpeedFL = 80;
+	motorSpeedFR = 80;
+	motorSpeedBR = 80;
+	return 0;
+}
+
+/**
+ * NOT FINISHED YET
+ * Should change the motor thrust scaling-value appropriately to help keep the UAS at a specified height.
+ */
+float UAS_MotorController::StayAtHeight(float desiredHeight){
+	mcsense.ReadCloseRangeLIDAR();
+	mcsense.ReadLongRangeLIDAR();
+	float closeL = Lidar.CloseRange;
+	float longL = Lidar.LongRange;
+	float currentHeight = longL;
+	if (longL <= 100){ // Switch to the close range one - once we get down to mid range between the two's boundaries.
+		currentHeight = closeL;
+	}
+	float error = desiredHeight - currentHeight; // positive when we need to go up, negative when we need to go down
+	// For a velocity controller, we need:
+	// desired velocity
+	// actual velocity
+	// way to set derivative of velocity / gradually change velocity (force)
+}
+
+/**
+ * Takes a scaleable value for the thrust and sets the thrustScaler (used for increasing or decreasing the motor
+ * thrust of ALL the motors) to that value. Used when staying at a specific height.
+ */
+int UAS_MotorController::SetThrustScale(float thrust){
+	thrustScaler = thrust;
+	return 0;
+}
+
+/**
+ * Mostly for debugging. Set an added force which will go to all the rotors in ChangeUASOrientation.
+ * This is to keep the UAS from dropping even when the UAS does not need to rotate.
+ */
+int UAS_MotorController::SetLiftForce(float f){
+	liftForce = f; 
+	return 0;
+}
+ 
+/**
+ * Does what you'd expect.
+ */
+int UAS_MotorController::SetMaxThrust(float f){
+	maxThrust = f;
+	return 0;
+}
+
+ /**
+  * Does what you'd expect.
+  */ 
+int UAS_MotorController::SetUASWeight(float f){
+	droneWeight = f;
+	return 0;
+}
+
+/**
+ * Takes an orientation in (roll, pitch, yaw) and uses ChangeUASOrientation to reach it.
+ */
+int UAS_MotorController::SetUASOrientation(float roll, float pitch, float yaw, int mode){
+	float kp_roll = 1;
+	
+	// Get the current roll.
+	sensors_event_t orientation;
+	bno.getEvent(&orientation, Adafruit_BNO055::VECTOR_EULER);
+	float c_roll = orientation.orientation.y;
+	Serial.print("Orientation from set command is: ");
+	Serial.println(c_roll);
+	
+	// Calculate our error roll.
+	float e_roll =  roll - c_roll;
+	Serial.print("We need to correct our roll by: ");
+	Serial.println(e_roll);	
+	// Now that we have the error (the P in our PID controller), add a force appropriately.
+	float rollforce;
+	
+	switch(mode){
+	case 0:	{
+		// BANG BANG test.
+		// need to roll right
+		if (e_roll > 0) rollforce = 10 * kp_roll;
+		// need to roll left
+		else rollforce = -10 * kp_roll;
+		break;
+	}
+	case 1:{
+		// PID test.
+		// Scale the force to be applied with the error in roll position.
+		float k = 0.5;
+		rollforce = (e_roll * k * (maxThrust-droneWeight)) * kp_roll;
+		break;
+	}
+	default:{
+		// default to PID
+		rollforce = (e_roll * 0.5 * (maxThrust-droneWeight)) * kp_roll;
+		break;
+	}
+	}
+	
+	Serial.print("rollforce: ");
+	Serial.println(rollforce);
+	
+	ChangeUASOrientation(rollforce, pitch, yaw);
+	return 0;
+}
+
+/**
+ * Takes a rotational force (in pounds/newtons) in (roll, pitch, yaw) which we wish to apply to the UAS and translates it into
+ * the appropriate forces to be applied to each motor, then sends those forces to SetMotorForces().
+ * For future reference, IMUBNO055 defines the SENSOR_TYPE_ORIENTATION events fields:
+ *		+ yaw is the +x value, facing forward, turning to your right.
+ *		+ roll is the +y value, when standing up, leaning to your right.
+ *		+ pitch is the +z value, looking straight ahead, tilting your head upward.
+ */
+int UAS_MotorController::ChangeUASOrientation(float roll, float pitch, float yaw){
+	// + roll would be +FL and +BL, -FR and -BR	
+	// + pitch would be +FL and +FR, -BL and -BR
+	// + yaw would be +FR and +BL, -FL and -BR
+	
+	// For now, just put roll control in there.
+	int rollforce = roll;
+	
+	// Add a minimum force so that it keeps airborn even when not rolling.
+	int liftforce = liftForce; // For now.
+	SetMotorForces(rollforce/4 + liftforce, rollforce/4 + liftforce, -rollforce/4 + liftforce, -rollforce/4 + liftforce);
+	return 0;
+}
+
+/**
+ * Takes a force that we want from each motor (in pounds/newtons) and converts it into something that the MCU
+ * can read and use to switch the motors periodically (a floating percentage.)
+ * If a upwards or downwards force greater than we can give is requested, set it to the max in that direction
+ * and send a message to the serial communications line.
+ * The force range it should take here is from droneWeight to maxThrust. Anything outside it will be raised or
+ * lowered to the appropriate bound.
+ */
+int UAS_MotorController::SetMotorForces(float BL_Force, float FL_Force, float FR_Force, float BR_Force){
+	//float maxThrust = 10; // say its like 10 lbs
+	//float droneWeight = 8; // 8 lbs
+	// The maximum force it can have upwards is maxThrust - droneWeight.
+	// The maximum force it can have going downwards is droneWeight (our rotors don't spin backwards.)
+	// The difference between these two is maxThrust.
+	// In this case, 0% of maxThrust would be -8 lbs of force, 100% of maxThrust would be +2 lbs of force.
+	// 
+	// (-8 + 8) / 10 * 100 = 0
+	// (-2 + 8) / 10 * 100 = 60
+	// (0  + 8) / 10 * 100 = 80
+	// (2  + 8) / 10 * 100 = 100
+
+
+	// Init the percent of time each motor should be driven high.  
+	float percentBL = (BL_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
+	if (percentBL > 100) {
+		percentBL = 100;
+		Serial.println("Trying to get more force than we can muster out of motor BL!");
+	}
+	else if (percentBL < 0){
+		percentBL = 0;
+		Serial.println("Trying to drop faster than gravity will allow for side BL!");
+	}
+	
+	float percentFL = (FL_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
+	if (percentFL > 100) {
+		percentFL = 100;
+		Serial.println("Trying to get more force than we can muster out of motor FL!");
+	}
+	else if (percentFL < 0){
+		percentFL = 0;
+		Serial.println("Trying to drop faster than gravity will allow for side FL!");
+	}
+	
+	float percentFR = (FR_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
+	if (percentFR > 100) {
+		percentFR = 100;
+		Serial.println("Trying to get more force than we can muster out of motor FR!");
+	}
+	else if (percentFR < 0){
+		percentFR = 0;
+		Serial.println("Trying to drop faster than gravity will allow for side FR!");
+	}
+	
+	float percentBR = (BR_Force + droneWeight/4) / maxThrust * thrustScaler * 100;
+	if (percentBR > 100) {
+		percentBR = 100;
+		Serial.println("Trying to get more force than we can muster out of motor BR!");
+	}
+	else if (percentBR < 0){
+		percentBR = 0;
+		Serial.println("Trying to drop faster than gravity will allow for side BR!");
+	}
+	Serial.print("percentBL: ");
+	Serial.println(percentBL);
+	Serial.print("percentFL: ");
+	Serial.println(percentFL);
+	Serial.print("percentFR: ");
+	Serial.println(percentFR);
+	Serial.print("percentBR: ");
+	Serial.println(percentBR);
+	
+	motorSpeedBL = percentBL;
+	motorSpeedFL = percentFL;
+	motorSpeedFR = percentFR;
+	motorSpeedBR = percentBR;
+	return 0;
+}
+
+// Function that should be called in main to spin the motors in a time-sensitive manner.
+void UAS_MotorController::SpinMotors(void)
+{	
+	Serial.print("Spinning!\n\r");
+	if (BLCounter > motorSpeedBL) digitalWrite(MOTOR_BL, LOW); // turn off for (100-BL)% of the time.
+	else digitalWrite(MOTOR_BL, HIGH); // turn on for BL% of the time.
+	if (FLCounter > motorSpeedFL) digitalWrite(MOTOR_FL, LOW);
+	else digitalWrite(MOTOR_FL, HIGH);
+	if (FRCounter > motorSpeedFR) digitalWrite(MOTOR_FR, LOW);
+	else digitalWrite(MOTOR_FR, HIGH);
+	if (BRCounter > BRCounter) digitalWrite(MOTOR_BR, LOW);
+	else digitalWrite(MOTOR_BR, HIGH);
+
+	BLCounter++;
+	FLCounter++;
+	FRCounter++;
+	BRCounter++;
+
+	// When counters reach > 100, set back to 0.
+	if (BLCounter > 100) BLCounter = 0;
+	if (FLCounter > 100) FLCounter = 0;
+	if (FRCounter > 100) FRCounter = 0;
+	if (BRCounter > 100) BRCounter = 0;
 }

@@ -69,6 +69,7 @@ class SENSORS
         void ReadIMU(void);
         void ReadCloseRangeLIDAR(void);
         void ReadLongRangeLIDAR(void);
+		float GetRoll(void);
 
     //private methods
     private:
@@ -96,5 +97,26 @@ class UAS_WiFi
         void ParseString(String RxString);
 };
 
+//**************************************************************************************
+//------------------------ MotorController Class Methods -------------------------------
+//**************************************************************************************
+
+class UAS_MotorController
+{
+    public:
+		UAS_MotorController(void);
+        int Initialize(void);
+        float StayAtHeight(float desiredHeight);
+        int SetThrustScale(float thrust);
+		int SetLiftForce(float f);
+		int SetMaxThrust(float f);
+		int SetUASWeight(float f);
+        int SetUASOrientation(float roll, float pitch, float yaw, int mode);
+        void SpinMotors(void);
+        
+    //private:
+        int ChangeUASOrientation(float roll, float pitch, float yaw);
+        int SetMotorForces(float BL_Force, float FL_Force, float FR_Force, float BR_Force);
+};
 
 #endif
