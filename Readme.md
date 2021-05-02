@@ -97,7 +97,8 @@
         </p>
         <!--Place Communications Diagram-->
         <img src="Images\Diagrams\CommunicationDiagram.svg">
-        <!--Place GUI -->
+        <!--Place GUI-->
+        <img src="Images\Photos\GroundStationGUI.png" alt="Ground Station GUI">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The data being transmitted is in the format of a strings. Functions on the host and client side are implemented to format and parse strings to and from data structures. When the data is received by the microcontroller in the correct format, another string is transmitted, which serves as format-based Stop-and-wait ARQ. If the acknowledgment is not received by the ground station, the packet is then retransmitted until reaching a timeout value. The combination of this software implementation of format-based Stop-and-Wait ARQ, the built-in Selective Repeat ARQ of UDP, and the small data quantity serve as an error-limiting provide more reliable transmission while still maintaining high transfer rates. 
         </p>
@@ -115,7 +116,6 @@
         <p> 
           &nbsp;&nbsp;&nbsp;&nbsp;Arduino, as it is known today, is a forked version of an open-source programming project called Wiring. Wiring was started in 2003 by grad student Hernando Barragán for his Master's thesis at the Interaction Design Institute in Ivrea. His idea was to create "a microcontroller-based hardware controller platform that was simple enough to program that it could be used by artists"[6] without needing to know the specific programming syntax for the board that said code was running on. This enables users to implement the same code (with some minor tweaking to pin numbers) to run a program on a variety of boards. So, we designd our code to be Arduino compliant, without any bit banging or direct processor level interaction, so that it can be easily modified by the average user and so it can go on any microcontroller. 
         </p>
-        <!--Arduino Images-->
         <hr>
       </div>
     </div>
