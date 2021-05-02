@@ -256,10 +256,10 @@
     <div id="ProjectPresentation">
       <h1> Our Project Presentation</h1>
       <h3>QR Code to Project Wildflower Presentation on YouTube</h3>
-      <img src="" alt="YouTube Presentation QR Code">
+      <img src="Images\Photos\PresentationQRCode.png" alt="YouTube Presentation QR Code">
       <ul>
-        <li><a href="" target="_blank">Project Wildflower Presentation (GitHub)</a></li>
-        <li><a href="" target="_blank">Project Wildflower Presentation (YouTube)</a></li>
+        <li><a href="https://github.com/LofaroLabs/wildflower/blob/master/Videos/Video%20Files/Project%20Wildflower%20Presentation.mp4" target="_blank">Project Wildflower Presentation (GitHub)</a></li>
+        <li><a href="https://www.youtube.com/watch?v=GgbFuCZchfk" target="_blank">Project Wildflower Presentation (YouTube)</a></li>
       </ul>    
     </div>
     <!--Copyright Information-->
