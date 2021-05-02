@@ -150,29 +150,42 @@
         </p>
         <!--Single Motor Testing Image-->
         <img src="Images\Photos\SIngle Motor Testing.png" alt="Single Motor Testing Image">
+        <!--Single Motor Test Video-->
+        <img src="Images\Videos\GIFs for README.md\single motor test.gif" alt="Single Motor Test Video">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;After the drone had been fully assembled and all the sensors individually tested, a full drone thrust test was performed. The first interaction of this test involved mounting the drone in its normal flying position to a kitchen scale using a mount secured to the base of the drone. This test resulted in false readings as the propeller wash interfered with the scales measurements and needed to be reperformed. The second test involved inverting the drone and attaching it to an even higher secure mount. The inverted position significantly reduced propeller wash intensity and the higher mount ensured plenty of clearance between the drone and the scale. This resulted in a successful measurement of full drone thrust at 68 grams. The loss of thrust power between the single motor test and the full drone test is was due to the introduction of the motor arms to the air column of the propellers. This resulted in a 5% loss of thrust per motor.  
         </p>
         <!--All Motor Testing Image-->
         <img src="Images\Photos\Full Thrust Testing.png" alt="All Motor Thrust Test"> 
+        <!--All Motor Testing Video-->
+        <img src="Videos\GIFs for README.md\Full Thrust Test.gif" alt="Full Thrust Test Video">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;After establishing our maximum thrust, our average flight time could be determined based on power draw from the stationary hovering drone. This was determined to be 8.73A in total current draw at 3.7V. Given that our battery has a max charge of 2.6Ah and that the battery will drop below the required output voltage at 20% charge, we determined that an average flight time of 14 minutes would be achievable.  
         </p>
         <!--Flight Time Testing-->
         <img src="Images\Photos\Flight Time Test.png" alt="Flight Time Testing Image">
+        <!--Show Video of Generic Flight-->
+        <img src="Videos\GIFs for README.md\Generic Flight.gif" alt="Flight Video">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;Approaching the initial hover test came with a few hurdles. Although we were sure we could get the blades to spin, we did not have a sufficient rig to ensure the drone’s movement would be isolated to the z-axis. A rig was constructed using spare lumber and two steel rods to act as stationary mounts. Hooked around the mounts were two lightweight hanging screws threaded with wire. The wire was then attached to the drone and third rod was added to ensure only a single degree of motion would be achievable. With the rod created and the drone placed in it, the battery terminals were connected to a desktop power supply in order to not waste batteries for the tests.  
         </p>
+        <!--Hover Testing Videos-->
+        <img src="Videos\GIFs for README.md\Free Hover.gif" alt="Free Hover Video">
+        <img src="Videos\GIFs for README.md\Hover Testing.gif" alt="Hover Testing">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The initial hover test was conducted with the power being directly fed into the motor system, fully bypassing the control hardware. This initial test was a structural one to ensure basic flight could be achieved as well as a stress test for the design overall and the motor mounts. This initial test showed that at the battery's max voltage, the original motor mount design failed catastrophically. Approximately three seconds after flight was achieved one of the motors was violently wrested from its mount. This resulted in a redesign of the motor mounts to ensure proper hover. The reworked motor mounts were tested a second time using the single dimension rig. This second test resulted in successful takeoff and flight maintenance. Although altitude was not actively controlled, it was limited by the cables connecting the drone to the desktop power supply.  As the voltage to the drone was slowly lowered, it successfully made a gentle landing on the rig, showing that the motors do not sudden cut out at the drone had the ability to safety land from altitude.  
         </p>
         <!--Takeoff and landing test-->
         <img src="Images\Photos\Takeoff and Landing Testing.png" alt="Takeoff and Landing test">
+        <!--Takeoff and Landing Video-->
+        <img src="Videos\GIFs for README.md\Takeoff and landing.gif" alt="Takeoff and Landing Test">
          <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The first altitude control test involved the same test rig setup but this time the full sensor package was powered, and the control system was installed. There was a delay in initial takeoff as the spin up process took a bit longer than anticipated. Ultimately it took 1.7 seconds for the prototype to reach an altitude of 400m from a cold start. During the flight the climb rate of the drone adjusted during the sensor overlap between our short- and long-range LIDARs. This sensor overlap meant that as it approached the final altitude, the sensor differences resulted in a delay in actually reaching the desired altitude.  
         </p>
         <!--Takeoff Time to 400mm graph-->
         <img src="Images\Graphs\Takeoff Time 400.png" alt="Takeoff Time Graph">
+        <!--Takeoff Video-->
+        <img src="Videos\GIFs for README.md\Takeoff.gif" alt="Takeoff Video">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp; Once it was established that the drone could successfully takeoff, a unit step altitude test was performed. This involved establishing stable flight at an altitude of 50mm and then adjusting the setting to a new height of 70mm. In the execution of this maneuver, the drone initially lost altitude before beginning to climb due to a temporary loss of synchronization between motors. The unit then overshot the desired altitude and took three cycles before it could finally correct to the desired altitude.  
         </p>
@@ -185,6 +198,8 @@
         <img src="Images\Photos\Altitude-Test-Unit.png" alt="Single Axis Motion Testing Setup">
         <!--Roll Angle Recovery Graph-->
         <img src="Images\Graphs\Roll Angle.png" alt="Roll Angle Graph">
+        <!--Roll Test Video-->
+        <img src="Videos\GIFs for README.md\Roll Test.gif" alt="Roll Test Video">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;  The communication system of our UAS introduces latency within the system; thus, a unit test for communication latency must be performed to determine appropriate data refresh rates from our ground control station and our UAS module. The latency test was performed for an entire data refresh cycle. This cycle consists multiple actions. The first of these actions is an initial transmit of data from the ground station to the UAS. This transmit then waits for an acknowledgement. If the acknowledgement is not received, a timeout value is reached and the cycle progresses. If an acknowledgment is received, then the cycle will progress. The next portion of the information exchange cycle is where the data read from the UAS’s onboard sensors is transmitted the ground station, which listens on the specified port for incoming datagram packets.  This data is then received in string format, parsed, and placed within data structures.  
         </p>
@@ -262,6 +277,7 @@
         <li><a href="https://www.youtube.com/watch?v=GgbFuCZchfk" target="_blank">Project Wildflower Presentation (YouTube)</a></li>
       </ul>    
     </div>
+    <hr>
     <!--Copyright Information-->
     <footer> <small>&copy; Copyright 2021, Lofaro Labs</small> </footer>
     </body>
