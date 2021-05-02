@@ -151,7 +151,7 @@
         <!--Single Motor Testing Image-->
         <img src="Images\Photos\SIngle Motor Testing.png" alt="Single Motor Testing Image">
         <!--Single Motor Test Video-->
-        <img src="Images\Videos\GIFs for README.md\single motor test.gif" alt="Single Motor Test Video">
+        <img src="Videos\GIFs for README.md\single motor test.gif" alt="Single Motor Test Video">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;After the drone had been fully assembled and all the sensors individually tested, a full drone thrust test was performed. The first interaction of this test involved mounting the drone in its normal flying position to a kitchen scale using a mount secured to the base of the drone. This test resulted in false readings as the propeller wash interfered with the scales measurements and needed to be reperformed. The second test involved inverting the drone and attaching it to an even higher secure mount. The inverted position significantly reduced propeller wash intensity and the higher mount ensured plenty of clearance between the drone and the scale. This resulted in a successful measurement of full drone thrust at 68 grams. The loss of thrust power between the single motor test and the full drone test is was due to the introduction of the motor arms to the air column of the propellers. This resulted in a 5% loss of thrust per motor.  
         </p>
