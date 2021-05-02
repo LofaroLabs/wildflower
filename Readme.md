@@ -90,11 +90,16 @@
         <p> 
           &nbsp;&nbsp;&nbsp;&nbsp;The Adafruit Feather M0 microcontroller uses the on-board RF module, the ATWINC1500, to communicate with the ground station over a 2.4 gigahertz WiFi network. The Feather communicates with the on-board ATWINC1500 module using serial peripheral interface (SPI) communication. The RF module then connects to the same WiFi network to which the ground station is connected. The communication between the microcontroller and the ground station is done by transmitting packets using User Datagram Protocol (UDP). UDP was chosen over Transmission Control Protocol (TCP) since UDP is a faster communication method. This is due to UDP being a connectionless protocol; thus, the setup and retransmission times of UDP are much quicker than that of TCP. The tradeoff of that UDP is more error prone since it does not use include sequencing numbers. Since we are not transmitting large files, any transmission error is accounted for by built-in selective repeat ARQ (Automatic Repeat Request).  The UDP packets are sent from the ground station to the microcontroller on port 2390 and packets received from the microcontroller are obtained from port 3000. 
         </p>
-        <!--Insert graphs-->
+        <!--Place Communications Diagram-->
+        <img src="Images\Diagrams\CommunicationDiagram.svg">
+        <!--Place GUI -->
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The data being transmitted is in the format of a strings. Functions on the host and client side are implemented to format and parse strings to and from data structures. When the data is received by the microcontroller in the correct format, another string is transmitted, which serves as format-based Stop-and-wait ARQ. If the acknowledgment is not received by the ground station, the packet is then retransmitted until reaching a timeout value. The combination of this software implementation of format-based Stop-and-Wait ARQ, the built-in Selective Repeat ARQ of UDP, and the small data quantity serve as an error-limiting provide more reliable transmission while still maintaining high transfer rates. 
         </p>
-        <!--Software Groups-->
+        <!--Software Flow Chart-->
+        <img src="Images\Diagrams\Peripheral_Software_Flowchart.svg" alt="Software Flowchart">
+        <!--UML Diagram-->
+        <img src="Images\Diagrams\UML_Class_Diagram.svg" alt="UML Diagram">
         <hr>
       </div>
     </div>
@@ -119,7 +124,8 @@
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The Wildflower makes use of three different sensors to help keep it in a user-specified location and orientation. The first is the BNO055 inertial measurement unit, which is capable of tracking the UAS’s absolute orientation, angular velocity, and linear acceleration, of which we need in order to make our PID controller work. The absolute orientation provides the provides the proportional section of our PID formula, representing the base difference that our UAS needs to rotate in order to meet the desired orientation. The velocity is used in part of the derivative contribution to the formula so we can see the rate at which it’s rotating about an axis and increase or decrease the rotational force being applied in order to reach that point in a timely manner while minimizing overshoot. The recordings of both can be stored onboard and used with some averaging to give us the integrational part of our formula. This completes our PID function, giving us the appropriate forces, we need to apply on each axis to reach our goal. Said forces are then fed into a function which converts them into values which tell the motors at what rate they should spin in order to best achieve the desired state. 
         </p>
-        <!--Insert Image-->
+        <!--Peripheral Circuit-->
+        <img src="Images\Diagrams\SensorBlockDiagram.svg" alt="Peripheral Circuitry">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The other two sensors are LIDARs specified to work at different ranges, with one being our long range one and the other being our close range one. The long one is rated for a range of 50 mm to 1200 mm, allowing us to determine how high off the ground we have ascended (our altitude) to a degree. Its primary purpose is helping the Wildflower maintain a specified height. The second one has an effective range of 5 mm to 100 mm, which aids in landing to ensure that we don’t drop too quickly. 
         </p>
@@ -133,41 +139,51 @@
         <p> 
           &nbsp;&nbsp;&nbsp;&nbsp;The first unit test we performed was a single motor thrust measurement. After the move from the brushless DC motors to the brushed DC motors was made, it was important to establish a new thrust capability threshold for the new motors. To accomplish this, a single motor was mounted in putty to a kitchen scale. The motor was hooked up to a desktop power supply and the propeller was switched in order to have the motor trust against the scale. Voltage was ramped up until the maximum output of the battery was reached resulting in a maximum of 18 grams of thrust. This gave the final four motor drone a potential 72 grams of maximum thrust. 
         </p>
-        <!--Image 1-->
+        <!--Single Motor Testing Image-->
+        <img src="Images\Photos\SIngle Motor Testing.png" alt="Single Motor Testing Image">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;After the drone had been fully assembled and all the sensors individually tested, a full drone thrust test was performed. The first interaction of this test involved mounting the drone in its normal flying position to a kitchen scale using a mount secured to the base of the drone. This test resulted in false readings as the propeller wash interfered with the scales measurements and needed to be reperformed. The second test involved inverting the drone and attaching it to an even higher secure mount. The inverted position significantly reduced propeller wash intensity and the higher mount ensured plenty of clearance between the drone and the scale. This resulted in a successful measurement of full drone thrust at 68 grams. The loss of thrust power between the single motor test and the full drone test is was due to the introduction of the motor arms to the air column of the propellers. This resulted in a 5% loss of thrust per motor.  
         </p>
-        <!--Image 2-->
+        <!--All Motor Testing Image-->
+        <img src="Images\Photos\Full Thrust Test.png" alt="All Motor Thrust Test"> 
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;After establishing our maximum thrust, our average flight time could be determined based on power draw from the stationary hovering drone. This was determined to be 8.73A in total current draw at 3.7V. Given that our battery has a max charge of 2.6Ah and that the battery will drop below the required output voltage at 20% charge, we determined that an average flight time of 14 minutes would be achievable.  
         </p>
-        <!--Image 3-->
+        <!--Flight Time Testing-->
+        <img src="Images\Photos\Flight Time Test.png" alt="Flight Time Testing Image">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;Approaching the initial hover test came with a few hurdles. Although we were sure we could get the blades to spin, we did not have a sufficient rig to ensure the drone’s movement would be isolated to the z-axis. A rig was constructed using spare lumber and two steel rods to act as stationary mounts. Hooked around the mounts were two lightweight hanging screws threaded with wire. The wire was then attached to the drone and third rod was added to ensure only a single degree of motion would be achievable. With the rod created and the drone placed in it, the battery terminals were connected to a desktop power supply in order to not waste batteries for the tests.  
         </p>
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The initial hover test was conducted with the power being directly fed into the motor system, fully bypassing the control hardware. This initial test was a structural one to ensure basic flight could be achieved as well as a stress test for the design overall and the motor mounts. This initial test showed that at the battery's max voltage, the original motor mount design failed catastrophically. Approximately three seconds after flight was achieved one of the motors was violently wrested from its mount. This resulted in a redesign of the motor mounts to ensure proper hover. The reworked motor mounts were tested a second time using the single dimension rig. This second test resulted in successful takeoff and flight maintenance. Although altitude was not actively controlled, it was limited by the cables connecting the drone to the desktop power supply.  As the voltage to the drone was slowly lowered, it successfully made a gentle landing on the rig, showing that the motors do not sudden cut out at the drone had the ability to safety land from altitude.  
         </p>
-        <!--Image 4-->
+        <!--Takeoff and landing test-->
+        <img src="Images\Photos\Takeoff and Landing Testing.png" alt="Takeoff and Landing test">
          <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The first altitude control test involved the same test rig setup but this time the full sensor package was powered, and the control system was installed. There was a delay in initial takeoff as the spin up process took a bit longer than anticipated. Ultimately it took 1.7 seconds for the prototype to reach an altitude of 400m from a cold start. During the flight the climb rate of the drone adjusted during the sensor overlap between our short- and long-range LIDARs. This sensor overlap meant that as it approached the final altitude, the sensor differences resulted in a delay in actually reaching the desired altitude.  
         </p>
-        <!--Insert graph-->
+        <!--Takeoff Time to 400mm graph-->
+        <img src="Images\Graphs\Takeoff Time 400.png" alt="Takeoff Time Graph">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp; Once it was established that the drone could successfully takeoff, a unit step altitude test was performed. This involved establishing stable flight at an altitude of 50mm and then adjusting the setting to a new height of 70mm. In the execution of this maneuver, the drone initially lost altitude before beginning to climb due to a temporary loss of synchronization between motors. The unit then overshot the desired altitude and took three cycles before it could finally correct to the desired altitude.  
         </p>
-        <!--Insert Graph-->
+        <!--Unit Step Graph-->
+        <img src="Images\Graphs\Unit Step Altitude.png" alt="Unit Step Graph">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;Testing continued with single axis motion testing. This was important to establish independent axis control by the programming and hardware. By placing the unit in the single axis test unit and having it store small data runs on the onboard memory, data was captured on stabilization following an outside force applied to the hovering drone. The unit was rocked in the roll position and the roll angle was captured for 5 seconds. In this time after the initial velocity of the force wore off, the resonance in the test rig wiring interfered with the drone. But after that too wore off the drone successfully entered system resonance. Although this means that it was never perfectly still, it did show that with gain adjustments in the PID program that resonance should be able to be eliminated.  
         </p>
-        <!--Images-->
+        <!--Single Axis Motion Testing-->
+        <img src="Images\Photos\Altitude-Test-Unit.png" alt="Single Axis Motion Testing Setup">
+        <!--Roll Angle Recovery Graph-->
+        <img src="Images\Graphs\Roll Angle.png" alt="Roll Angle Graph">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;  The communication system of our UAS introduces latency within the system; thus, a unit test for communication latency must be performed to determine appropriate data refresh rates from our ground control station and our UAS module. The latency test was performed for an entire data refresh cycle. This cycle consists multiple actions. The first of these actions is an initial transmit of data from the ground station to the UAS. This transmit then waits for an acknowledgement. If the acknowledgement is not received, a timeout value is reached and the cycle progresses. If an acknowledgment is received, then the cycle will progress. The next portion of the information exchange cycle is where the data read from the UAS’s onboard sensors is transmitted the ground station, which listens on the specified port for incoming datagram packets.  This data is then received in string format, parsed, and placed within data structures.  
         </p>
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The entire cycles latency was measured from the ground station by measuring the system time at the beginning of the first stage of our data communication cycle and at the end of the data communication cycle. These two measured system times were subtracted to find the difference in milliseconds. After running 102 data communication samples, the data was exported to an Excel file. The graph and data analytics demonstrated below were generated within Microsoft Excel. 
         </p>
-        <!--Latency-->
+        <!--Latency Graph-->
+        <img src="Images\Graphs\LatencyPlot.svg" alt="Latency Test Graph">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp; The average transmit-receive latency was 540.245 milliseconds. Since User Datagram Protocol has limited error checking, the communication speeds are highly variable. This is apparent on the graph, which shows that most of the transmissions required around 255 milliseconds; however, due to the outliers, the average was increased to double that. The standard deviation is 512.995 milliseconds, which shows that based on a normalized Gaussian distribution, the 68.2% of our data lies within the one an interval of 512.995 milliseconds from our mean latency of 540.245 milliseconds.  
         </p>
