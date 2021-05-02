@@ -145,7 +145,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp;After the drone had been fully assembled and all the sensors individually tested, a full drone thrust test was performed. The first interaction of this test involved mounting the drone in its normal flying position to a kitchen scale using a mount secured to the base of the drone. This test resulted in false readings as the propeller wash interfered with the scales measurements and needed to be reperformed. The second test involved inverting the drone and attaching it to an even higher secure mount. The inverted position significantly reduced propeller wash intensity and the higher mount ensured plenty of clearance between the drone and the scale. This resulted in a successful measurement of full drone thrust at 68 grams. The loss of thrust power between the single motor test and the full drone test is was due to the introduction of the motor arms to the air column of the propellers. This resulted in a 5% loss of thrust per motor.  
         </p>
         <!--All Motor Testing Image-->
-        <img src="Images\Photos\Full Thrust Test.png" alt="All Motor Thrust Test"> 
+        <img src="Images\Photos\Full Thrust Testing.png" alt="All Motor Thrust Test"> 
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;After establishing our maximum thrust, our average flight time could be determined based on power draw from the stationary hovering drone. This was determined to be 8.73A in total current draw at 3.7V. Given that our battery has a max charge of 2.6Ah and that the battery will drop below the required output voltage at 20% charge, we determined that an average flight time of 14 minutes would be achievable.  
         </p>
