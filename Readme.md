@@ -98,7 +98,7 @@
         <!--Place Communications Diagram-->
         <img src="Images\Diagrams\CommunicationDiagram.svg">
         <!--Place GUI-->
-        <img src="Images\Photos\GroundStationGUI.png" alt="Ground Station GUI" height="250px" width="300px">
+        <img src="Images\Photos\GroundStationGUI.png" alt="Ground Station GUI" height="250px" width="600px">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The data being transmitted is in the format of a strings. Functions on the host and client side are implemented to format and parse strings to and from data structures. When the data is received by the microcontroller in the correct format, another string is transmitted, which serves as format-based Stop-and-wait ARQ. If the acknowledgment is not received by the ground station, the packet is then retransmitted until reaching a timeout value. The combination of this software implementation of format-based Stop-and-Wait ARQ, the built-in Selective Repeat ARQ of UDP, and the small data quantity serve as an error-limiting provide more reliable transmission while still maintaining high transfer rates. 
         </p>
