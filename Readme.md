@@ -255,7 +255,9 @@
     <!--Project Presentation-->
     <div id="ProjectPresentation">
       <h1> Our Project Presentation</h1>
-      <object data="http://www.youtube.com/embed/J---aiyznGQ?autoplay=1"></object> 
+      <video controls>
+        <source src="Videos\Project Wildflower Presentation.mp4" type="video/mp4">
+      </video>
     </div>
     <!--Copyright Information-->
     <footer> <small>&copy; Copyright 2021, Lofaro Labs</small> </footer>
