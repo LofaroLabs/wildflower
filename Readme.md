@@ -253,9 +253,15 @@
       </div>
     </div>
     <div id="ProjectPresentation">
-      <iframe width="420" height="315"
-        src="https://www.youtube.com/watch?v=GgbFuCZchfk">
-      </iframe>
+      <embed
+        src="https://www.youtube.com/watch?v=GgbFuCZchfk"
+        wmode="transparent"
+        type="video/mp4"
+        width="100%" height="100%"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+        title="Project Wildflower Presentation"
+  >
     </div>
     <!--Copyright Information-->
     <footer> <small>&copy; Copyright 2021, Lofaro Labs</small> </footer>
