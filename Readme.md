@@ -255,7 +255,10 @@
     <!--Project Presentation-->
     <div id="ProjectPresentation">
       <h1> Our Project Presentation</h1>
-      <img src="Videos\Project Wildflower Presentation.gif">
+      <h3>QR Code to Project Wildflower Presentation on YouTube</h3>
+      <img src="" alt="YouTube Presentation QR Code">
+      <a href="" target="_blank">Project Wildflower Presentation (GitHub)</a>
+      <a href="" target="_blank">Project Wildflower Presentation (YouTube)</a>
     </div>
     <!--Copyright Information-->
     <footer> <small>&copy; Copyright 2021, Lofaro Labs</small> </footer>
