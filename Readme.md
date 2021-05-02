@@ -68,15 +68,20 @@
         <p> 
           &nbsp;&nbsp;&nbsp;&nbsp;The circuit board for the UAS design consists of a 51x51mm body with four 10mm arms connected to circular motor mounting points which are 19mm in diameter. The motors and rotors are mounted on the outer circle of the PCB connected to the quadrotor’s arms, while some of the heavier electronics are placed towards the center of the PCB for stability. 
         </p>
-        <!--Insert Graphics Here-->
+        <!--PCB-->
+        <img src="Images\Photos\UAS_PCB.png" alt="Final PCB">
+        <!--Schematic-->
+        <img src="Images\Photos\UAS_Schematic.png" alt="Final Schematic">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The UAS PCB circuitry consists of a battery to supply power to the circuit. Two switches are applied in parallel with the battery to function as on/off switches to the motors and the microcontroller respectively. From the on/off switch, power is supplied to the microcontroller through a 3.3V voltage regulator at 300milliamperes. This voltage regulator was chosen since the recommended voltage input to the Feather is 3 to 5 volts and the recommended current that is input to the Feather is 250 milliamperes to 400 milliamperes. The microcontroller then uses the 3.3-volt output pin to supply power to the close-range lidar sensor, the long-range lidar sensor, and the inertial measurement unit (IMU).  Power is supplied to the motors using a single metal-oxide-semiconductor field-effect transistor (MOSFET), rather than using an H-bridge circuit for simplicity. The power supplied from the battery is supplied to the drain terminal of the MOSFET and the source MOSFET is connected to the motors. The amount of power supplied to the motors is manipulated by pulse-width modulation of the gate terminal of the MOSFET. When applying a signal from the Feather to the MOSFET with a high duty cycle, the drain current will increase; however, the opposite will occur when the input signal has a low duty cycle. The drain current of a MOSFET acting in the saturation region can be calculated by the following equation:
         </p>
-        <!--Insert Equation Here-->
+        <!--Drain Current Equation-->
+        <img src="Images\Photos\Transconductance_Equation.png" alt="Drain Current Equation for MOSFET in the triode region">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The transconductance parameter is the portion of this equation that dictates the amount of drain current based on the input voltage; thus, choosing a MOSFET with the correct transconductance parameter was critical. Another critical criterion that had to be met was having a low threshold voltage. With a low threshold voltage, the triode region of the MOSFET is entered with a low gate to source voltage. Since the gate to source voltage will at most be equivalent to the drain to source voltage in our case, the closest that our MOSFET will act to the triode region Is on the bound of the triode and saturation regions. For all of these reasons, we have chosen to use the SI2342DS. Shown below, this model of MOSFET will allow a large drain current to pass through MOSFET from the battery to the motor when a large gate voltage is applied; however, the opposite will occur when the gate to source voltage is lower than or equal to the threshold voltage. 
         </p>
         <!--Image of the FET graph-->
+        <img src="Images\Graphs\DrainToSourceVoltageVersusDrainCurrentMOSFET.png" alt="MOSFET Drain to Source Voltage Versus Drain Current">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;Finally, the node connected to the motor inputs is also connected to a decoupling capacitor. This capacitor will cancel out some of the impedance caused by the inductive load of the motor as well as filter out any high frequency signal components. 
         </p>
