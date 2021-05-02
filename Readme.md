@@ -255,10 +255,7 @@
     <!--Project Presentation-->
     <div id="ProjectPresentation">
       <h1> Our Project Presentation</h1>
-      <video width="320" height="240" controls>
-        <source src="Videos\Project Wildflower Presentation.mp4" type="video/mp4">
-        <source src="Videos\Project Wildflower Presentation.ogg" type="video/ogg">
-      </video>
+      <img src="Videos\Project Wildflower Presentation.gif">
     </div>
     <!--Copyright Information-->
     <footer> <small>&copy; Copyright 2021, Lofaro Labs</small> </footer>
