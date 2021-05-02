@@ -252,16 +252,10 @@
         <hr>
       </div>
     </div>
+    <!--Project Presentation-->
     <div id="ProjectPresentation">
-      <embed
-        src="https://www.youtube.com/watch?v=GgbFuCZchfk"
-        wmode="transparent"
-        type="video/mp4"
-        width="100%" height="100%"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen
-        title="Project Wildflower Presentation"
-  >
+      <h1> Our Project Presentation</h1>
+      <object data="http://www.youtube.com/embed/J---aiyznGQ?autoplay=1"></object> 
     </div>
     <!--Copyright Information-->
     <footer> <small>&copy; Copyright 2021, Lofaro Labs</small> </footer>
