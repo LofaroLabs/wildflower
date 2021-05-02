@@ -71,7 +71,7 @@
         <!--PCB-->
         <img src="Images\Photos\UAS_PCB.png" alt="Final PCB">
         <!--Schematic-->
-        <img src="Images\Photos\UAS_Schematic.png" alt="Final Schematic">
+        <img src="Images\Photos\UAS_Schematic.png" alt="Final Schematic"height="350px">
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;The UAS PCB circuitry consists of a battery to supply power to the circuit. Two switches are applied in parallel with the battery to function as on/off switches to the motors and the microcontroller respectively. From the on/off switch, power is supplied to the microcontroller through a 3.3V voltage regulator at 300milliamperes. This voltage regulator was chosen since the recommended voltage input to the Feather is 3 to 5 volts and the recommended current that is input to the Feather is 250 milliamperes to 400 milliamperes. The microcontroller then uses the 3.3-volt output pin to supply power to the close-range lidar sensor, the long-range lidar sensor, and the inertial measurement unit (IMU).  Power is supplied to the motors using a single metal-oxide-semiconductor field-effect transistor (MOSFET), rather than using an H-bridge circuit for simplicity. The power supplied from the battery is supplied to the drain terminal of the MOSFET and the source MOSFET is connected to the motors. The amount of power supplied to the motors is manipulated by pulse-width modulation of the gate terminal of the MOSFET. When applying a signal from the Feather to the MOSFET with a high duty cycle, the drain current will increase; however, the opposite will occur when the input signal has a low duty cycle. The drain current of a MOSFET acting in the saturation region can be calculated by the following equation:
         </p>
